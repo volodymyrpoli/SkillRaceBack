@@ -1,35 +1,42 @@
 package com.volodymyrpoli.skillrace.controller;
 
 import com.volodymyrpoli.skillrace.entity.Level;
+import com.volodymyrpoli.skillrace.entity.dto.LevelDTO;
 import com.volodymyrpoli.skillrace.exception.NotFoundException;
-import com.volodymyrpoli.skillrace.repository.ColumnRepository;
+import com.volodymyrpoli.skillrace.repository.LevelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("columns")
+@RequestMapping("levels")
 public class LevelController {
 
-    private final ColumnRepository columnRepository;
+    private final LevelRepository levelRepository;
 
     @Autowired
-    public LevelController(ColumnRepository columnRepository) {
-        this.columnRepository = columnRepository;
+    public LevelController(LevelRepository levelRepository) {
+        this.levelRepository = levelRepository;
     }
 
     @GetMapping
     public List<Level> getAll() {
-        return this.columnRepository.findAll();
+        return this.levelRepository.findAll();
     }
 
     @GetMapping("{id}")
     public Level getOne(@PathVariable("id") Integer id) throws NotFoundException {
-        return this.columnRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found level with id"));
+        return this.levelRepository.findById(id).orElseThrow(() -> new NotFoundException("Not found level with id"));
+    }
+
+    @PostMapping
+    public Level create(@RequestBody LevelDTO levelDTO) {
+        Level level = new Level();
+        level.setName(levelDTO.getName());
+        level.setRank(levelDTO.getRank());
+        level.setColor(levelDTO.getColor());
+        return levelRepository.save(level);
     }
 
 }

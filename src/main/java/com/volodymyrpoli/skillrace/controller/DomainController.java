@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("rows")
+@RequestMapping("domains")
 public class DomainController {
 
     private final DomainRepository domainRepository;
