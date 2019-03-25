@@ -1,5 +1,6 @@
 package com.volodymyrpoli.skillrace.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ public class Topic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
+    @JsonIgnore
     @ManyToOne
     private Domain domain;
     @OneToMany(mappedBy = "topic")

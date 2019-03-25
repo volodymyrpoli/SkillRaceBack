@@ -1,5 +1,6 @@
 package com.volodymyrpoli.skillrace.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ public class Level {
     private String name;
     private Integer rank;
     private String color;
+    @JsonIgnore
     @OneToMany(mappedBy = "level")
     private List<Subtopic> subtopics;
 
