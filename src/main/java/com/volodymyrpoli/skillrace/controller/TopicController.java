@@ -5,10 +5,12 @@ import com.volodymyrpoli.skillrace.entity.dto.TopicDTO;
 import com.volodymyrpoli.skillrace.exception.NotFoundException;
 import com.volodymyrpoli.skillrace.repository.DomainRepository;
 import com.volodymyrpoli.skillrace.repository.TopicRepository;
+import com.volodymyrpoli.skillrace.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("topics")
@@ -39,5 +41,25 @@ public class TopicController {
         topic.setName(topicDTO.getName());
         topic.setDomain(domainRepository.findById(topicDTO.getDomainId()).orElseThrow(() -> new NotFoundException("")));
         return topicRepository.save(topic);
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable("id") Integer id) {
+        topicRepository.deleteById(id);
+    }
+
+    @PatchMapping("{id}")
+    public Topic patch(@PathVariable("id") Integer id, @RequestBody TopicDTO topicDTO) throws NotFoundException {
+        Topic topic = topicRepository.findById(id).orElseThrow(() -> new NotFoundException(""));
+        map(topic, topicDTO);
+        return topicRepository.save(topic);
+    }
+
+    private void map(Topic topic, TopicDTO topicDTO) throws NotFoundException {
+        Mapper.mapBaseEntity(topic, topicDTO);
+
+        if (Objects.nonNull(topicDTO.getDomainId())) {
+            topic.setDomain(domainRepository.findById(topicDTO.getDomainId()).orElseThrow(() -> new NotFoundException("")));
+        }
     }
 }

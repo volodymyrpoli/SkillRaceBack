@@ -1,12 +1,12 @@
 package com.volodymyrpoli.skillrace.entity.dto;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class SubtopicDTO {
+public class SubtopicDTO extends BaseEntityDTO {
 
-    private Integer id;
-    private String name;
     private Integer levelId;
     private Integer topicId;
 

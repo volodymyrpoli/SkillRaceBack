@@ -6,10 +6,12 @@ import com.volodymyrpoli.skillrace.exception.NotFoundException;
 import com.volodymyrpoli.skillrace.repository.LevelRepository;
 import com.volodymyrpoli.skillrace.repository.SubtopicRepository;
 import com.volodymyrpoli.skillrace.repository.TopicRepository;
+import com.volodymyrpoli.skillrace.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("subtopics")
@@ -39,10 +41,33 @@ public class SubtopicController {
     @PostMapping
     public Subtopic create(@RequestBody SubtopicDTO subtopicDTO) throws NotFoundException {
         Subtopic subtopic = new Subtopic();
-        subtopic.setName(subtopicDTO.getName());
-        subtopic.setLevel(levelRepository.findById(subtopicDTO.getLevelId()).orElseThrow(() -> new NotFoundException("Not found level with id")));
-        subtopic.setTopic(topicRepository.findById(subtopicDTO.getTopicId()).orElseThrow(() -> new NotFoundException("Not found level with id")));
+        map(subtopic, subtopicDTO);
         return subtopicRepository.save(subtopic);
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable("id") Integer id) {
+        subtopicRepository.deleteById(id);
+    }
+
+    @PatchMapping("{id}")
+    public Subtopic patch(@PathVariable("id") Integer id, @RequestBody SubtopicDTO subtopicDTO) throws NotFoundException {
+        Subtopic subtopic = subtopicRepository.findById(id).orElseThrow(() -> new NotFoundException(""));
+        map(subtopic, subtopicDTO);
+        return subtopicRepository.save(subtopic);
+    }
+
+    private void map(Subtopic subtopic, SubtopicDTO subtopicDTO) throws NotFoundException {
+        Mapper.mapBaseEntity(subtopic, subtopicDTO);
+
+        if (Objects.nonNull(subtopicDTO.getLevelId())) {
+            subtopic.setLevel(levelRepository.findById(subtopicDTO.getLevelId()).orElseThrow(() -> new NotFoundException("Not found level with id")));
+        }
+
+        if (Objects.nonNull(subtopicDTO.getTopicId())) {
+            subtopic.setTopic(topicRepository.findById(subtopicDTO.getTopicId()).orElseThrow(() -> new NotFoundException("Not found topic with id")));
+        }
+
     }
 
 }

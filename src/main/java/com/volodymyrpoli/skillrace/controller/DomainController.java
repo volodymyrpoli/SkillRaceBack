@@ -4,10 +4,12 @@ import com.volodymyrpoli.skillrace.entity.Domain;
 import com.volodymyrpoli.skillrace.entity.dto.DomainDTO;
 import com.volodymyrpoli.skillrace.exception.NotFoundException;
 import com.volodymyrpoli.skillrace.repository.DomainRepository;
+import com.volodymyrpoli.skillrace.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("domains")
@@ -33,8 +35,28 @@ public class DomainController {
     @PostMapping
     public Domain create(@RequestBody DomainDTO domainDTO) {
         Domain domain = new Domain();
-        domain.setName(domainDTO.getName());
-        domain.setRank(domainDTO.getRank());
+        map(domain, domainDTO);
         return domainRepository.save(domain);
     }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable("id") Integer id) {
+        domainRepository.deleteById(id);
+    }
+
+    @PatchMapping("{id}")
+    public Domain patch(@PathVariable("id") Integer id, @RequestBody DomainDTO domainDTO) throws NotFoundException {
+        Domain domain = domainRepository.findById(id).orElseThrow(() -> new NotFoundException(""));
+        map(domain, domainDTO);
+        return domainRepository.save(domain);
+    }
+
+    private void map(Domain domain, DomainDTO domainDTO) {
+        Mapper.mapBaseEntity(domain, domainDTO);
+
+        if (Objects.nonNull(domainDTO.getRank())) {
+            domain.setRank(domainDTO.getRank());
+        }
+    }
+
 }

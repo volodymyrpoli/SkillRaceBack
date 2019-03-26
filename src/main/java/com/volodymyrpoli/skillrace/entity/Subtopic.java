@@ -2,17 +2,15 @@ package com.volodymyrpoli.skillrace.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class Subtopic {
+public class Subtopic extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String name;
     @JsonIgnore
     @ManyToOne
     private Topic topic;
