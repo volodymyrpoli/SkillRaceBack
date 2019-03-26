@@ -13,6 +13,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("levels")
+@CrossOrigin(origins = "${cross.origin}")
 public class LevelController {
 
     private final LevelRepository levelRepository;

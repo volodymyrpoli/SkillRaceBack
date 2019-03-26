@@ -13,6 +13,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("domains")
+@CrossOrigin(origins = "${cross.origin}")
 public class DomainController {
 
     private final DomainRepository domainRepository;

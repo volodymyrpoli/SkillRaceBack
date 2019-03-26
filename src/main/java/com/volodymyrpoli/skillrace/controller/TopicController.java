@@ -14,6 +14,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("topics")
+@CrossOrigin(origins = "${cross.origin}")
 public class TopicController {
 
     private final TopicRepository topicRepository;
