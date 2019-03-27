@@ -12,20 +12,23 @@ public class JwtApplicationUser implements UserDetails {
     private final String username;
     private final String password;
     private final String email;
+    private final Collection<? extends GrantedAuthority> authorities;
 
     public JwtApplicationUser(Integer id,
                               String username,
                               String password,
+                              Collection<? extends GrantedAuthority> authorities,
                               String email) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.authorities = authorities;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.EMPTY_LIST;
+        return authorities;
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.volodymyrpoli.skillrace.exception.NotFoundException;
 import com.volodymyrpoli.skillrace.repository.DomainRepository;
 import com.volodymyrpoli.skillrace.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class DomainController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Domain> getAll() {
         return domainRepository.findAll();
     }
