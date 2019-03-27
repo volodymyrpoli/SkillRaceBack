@@ -7,6 +7,7 @@ import com.volodymyrpoli.skillrace.repository.DomainRepository;
 import com.volodymyrpoli.skillrace.repository.TopicRepository;
 import com.volodymyrpoli.skillrace.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,6 +38,7 @@ public class TopicController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public Topic create(@RequestBody TopicDTO topicDTO) throws NotFoundException {
         Topic topic = new Topic();
         topic.setName(topicDTO.getName());
@@ -45,11 +47,13 @@ public class TopicController {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(@PathVariable("id") Integer id) {
         topicRepository.deleteById(id);
     }
 
     @PatchMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public Topic patch(@PathVariable("id") Integer id, @RequestBody TopicDTO topicDTO) throws NotFoundException {
         Topic topic = topicRepository.findById(id).orElseThrow(() -> new NotFoundException(""));
         map(topic, topicDTO);

@@ -8,6 +8,7 @@ import com.volodymyrpoli.skillrace.repository.SubtopicRepository;
 import com.volodymyrpoli.skillrace.repository.TopicRepository;
 import com.volodymyrpoli.skillrace.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,6 +41,7 @@ public class SubtopicController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public Subtopic create(@RequestBody SubtopicDTO subtopicDTO) throws NotFoundException {
         Subtopic subtopic = new Subtopic();
         map(subtopic, subtopicDTO);
@@ -47,11 +49,13 @@ public class SubtopicController {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(@PathVariable("id") Integer id) {
         subtopicRepository.deleteById(id);
     }
 
     @PatchMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public Subtopic patch(@PathVariable("id") Integer id, @RequestBody SubtopicDTO subtopicDTO) throws NotFoundException {
         Subtopic subtopic = subtopicRepository.findById(id).orElseThrow(() -> new NotFoundException(""));
         map(subtopic, subtopicDTO);

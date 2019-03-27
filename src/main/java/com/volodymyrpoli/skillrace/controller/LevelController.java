@@ -6,6 +6,7 @@ import com.volodymyrpoli.skillrace.exception.NotFoundException;
 import com.volodymyrpoli.skillrace.repository.LevelRepository;
 import com.volodymyrpoli.skillrace.util.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class LevelController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public Level create(@RequestBody LevelDTO levelDTO) {
         Level level = new Level();
         map(level, levelDTO);
@@ -41,11 +43,13 @@ public class LevelController {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(@PathVariable("id") Integer id) {
         levelRepository.deleteById(id);
     }
 
     @PatchMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public Level patch(@PathVariable("id") Integer id, @RequestBody LevelDTO levelDTO) throws NotFoundException {
         Level level = levelRepository.findById(id).orElseThrow(() -> new NotFoundException(""));
         map(level, levelDTO);

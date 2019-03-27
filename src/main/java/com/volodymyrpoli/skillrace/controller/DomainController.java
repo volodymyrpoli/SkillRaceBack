@@ -25,7 +25,6 @@ public class DomainController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public List<Domain> getAll() {
         return domainRepository.findAll();
     }
@@ -36,6 +35,7 @@ public class DomainController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public Domain create(@RequestBody DomainDTO domainDTO) {
         Domain domain = new Domain();
         map(domain, domainDTO);
@@ -43,11 +43,13 @@ public class DomainController {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void delete(@PathVariable("id") Integer id) {
         domainRepository.deleteById(id);
     }
 
     @PatchMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public Domain patch(@PathVariable("id") Integer id, @RequestBody DomainDTO domainDTO) throws NotFoundException {
         Domain domain = domainRepository.findById(id).orElseThrow(() -> new NotFoundException(""));
         map(domain, domainDTO);
