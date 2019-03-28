@@ -3,6 +3,7 @@ package com.volodymyrpoli.skillrace.controller;
 import com.volodymyrpoli.skillrace.entity.Attachment;
 import com.volodymyrpoli.skillrace.entity.BaseEntity;
 import com.volodymyrpoli.skillrace.entity.Subtopic;
+import com.volodymyrpoli.skillrace.entity.dto.AttachmentDTO;
 import com.volodymyrpoli.skillrace.entity.dto.SubtopicDTO;
 import com.volodymyrpoli.skillrace.exception.NotFoundException;
 import com.volodymyrpoli.skillrace.repository.AttachmentRepository;

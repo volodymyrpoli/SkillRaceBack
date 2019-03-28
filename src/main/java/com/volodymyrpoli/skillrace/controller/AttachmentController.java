@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
+@RequestMapping("attachments")
+@CrossOrigin(origins = "${cross.origin}")
 public class AttachmentController {
 
     private final AttachmentRepository attachmentRepository;
