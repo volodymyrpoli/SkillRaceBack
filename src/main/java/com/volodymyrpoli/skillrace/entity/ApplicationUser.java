@@ -24,5 +24,12 @@ public class ApplicationUser {
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")})
     private List<Authority> authorities;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "status",
+            joinColumns = {@JoinColumn(name = "application_user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "subtopic_id", referencedColumnName = "id")}
+    )
+    private List<Subtopic> doneSubtopics;
 
 }
