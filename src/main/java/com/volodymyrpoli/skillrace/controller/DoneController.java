@@ -17,6 +17,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("done")
+@CrossOrigin(origins = "${cross.origin}")
 public class DoneController {
 
     private final DoneService doneService;
