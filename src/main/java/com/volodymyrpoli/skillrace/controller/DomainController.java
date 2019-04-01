@@ -48,6 +48,9 @@ public class DomainController {
     public Domain create(@RequestBody DomainDTO domainDTO) {
         Domain domain = new Domain();
         map(domain, domainDTO);
+        if (Objects.isNull(domain.getRank())) {
+            domain.setRank(1);
+        }
         return domainRepository.save(domain);
     }
 
